@@ -79,13 +79,15 @@ function App() {
       const delta = (timestamp - lastTimeRef.current) / 1000;
       lastTimeRef.current = timestamp;
 
-      if (isPlaying) {
-        anglesRef.current = anglesRef.current.map((angle, i) => {
-         const normalizedPeriod = Math.pow(planets[i].orbitalPeriod / 365, 0.4);
-   const baseSpeed = (2 * Math.PI) / (normalizedPeriod * 3);
-          return angle + baseSpeed * speed * delta;
-        });
-      }
+if (isPlaying) {
+  const newAngles = anglesRef.current.map((angle, i) => {
+    // Нелинейная шкала: все планеты двигаются заметно, но сохраняют пропорции
+    const normalizedPeriod = Math.pow(planets[i].orbitalPeriod / 365, 0.4);
+    const baseSpeed = (2 * Math.PI) / (normalizedPeriod * 3);
+    return angle + baseSpeed * speed * delta;
+  });
+  anglesRef.current = newAngles;
+}
 
       const radii = getRadii();
       const cx = size.w / 2;
