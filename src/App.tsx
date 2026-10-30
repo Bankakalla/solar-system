@@ -81,7 +81,8 @@ function App() {
 
       if (isPlaying) {
         anglesRef.current = anglesRef.current.map((angle, i) => {
-          const baseSpeed = (2 * Math.PI) / (planets[i].orbitalPeriod / 365 * 10);
+         const normalizedPeriod = Math.pow(planets[i].orbitalPeriod / 365, 0.4);
+   const baseSpeed = (2 * Math.PI) / (normalizedPeriod * 3);
           return angle + baseSpeed * speed * delta;
         });
       }
